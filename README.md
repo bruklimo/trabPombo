@@ -16,7 +16,7 @@ gcc main.c -o trabFinal -lpthread
 
 No final, pode-se executar o programa
 ```
-bash trabFinal 
+./trabFinal 
 
 ```
 
