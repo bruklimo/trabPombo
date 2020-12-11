@@ -4,12 +4,12 @@
 #include<pthread.h>
 #define N 20
 
-# Declarando as funções
+//Declarando as funções
 void *usuario(void *num);
 void dorme_aleatorio();
 void leva_mochila_ate_B_e_volta();
 
-# Declarando as variáveis globais
+//Declarando as variáveis globais
 sem_t mutex;
 sem_t mutex2;
 int cont=0;
@@ -17,25 +17,25 @@ int contPostIt=1;
 int numUsers=0;
 int i;
 
-# Função dorme aleatório
+//Função dorme aleatório
 void dorme_aleatorio(){
 	 sem_wait(&mutex2);
 	 sleep(1);
 	
 }
 
-# Função leva mochila
+//Função leva mochila
 void leva_mochila_ate_B_e_volta(){
 	sem_wait(&mutex);
 	sleep(1);
 }
 
-# Função colaPostIt
+//Função colaPostIt
 void ColaPostIt(){
 	sleep(1);
 }
 
-# Thread usuário
+//Thread usuário
 
 void *usuario (void *num){
  while(1){
@@ -52,7 +52,7 @@ void *usuario (void *num){
 } 
 
 
-# Thread pombo
+//Thread pombo
 void *pombo() {
  while(1){
  for ( i=1; i<=N; i++)
@@ -67,34 +67,35 @@ void *pombo() {
  }
 } 
 
-# main
+//main
 int main() {
-	# Declarando as variáveis globais
+//Declarando as variáveis globais
    int i=0;
    int numPombo=1;
-   # Recebendo o número de usuários
+   //Recebendo o número de usuários
+   printf("Digite o número de usuarios da thread:\n");
    scanf("%d",&numUsers);
    int nUsers[numUsers]; 
    sem_t S[numUsers]; //inicializacao do semáforo
    sem_t S2[numUsers]; //inicializacao do semáforo
    pthread_t thread_id[numUsers],thread_id2; //identificadores das threads
  
- # Inicializando semáforo 1
+ //Inicializando semáforo 1
    sem_init(&mutex,0,1);
    for(i=0;i<numUsers;i++)
       sem_init(&S[i],0,0);
       
-  # Inicializando semáforo 2    
+ // Inicializando semáforo 2    
        sem_init(&mutex2,0,1);
    for(i=0;i<numUsers;i++)
       sem_init(&S2[i],0,0);
-     # Criando thread 1 
+     //Criando thread 1 
    for(i=0;i<numUsers;i++)
    {
       pthread_create(&thread_id[i], NULL, usuario, &nUsers[i]);
       //criar as threads
    }
-   # Criando thread 2
+  // Criando thread 2
    pthread_create(&thread_id2, NULL, pombo, &numPombo);
 
    for(i=0;i<numUsers;i++)
