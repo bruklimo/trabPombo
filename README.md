@@ -1,7 +1,7 @@
 # trabProg
 T_TT304A_2020S2 - Sistemas Operacionais - Trabalho final
-# Grupo: YoRHa
-# Integrantes:
+Grupo: YoRHa
+Integrantes:
 Bruno Alexander Klimowitsch Lins - 167460
 Pedro Henrique Grosso Marquezini - 186942
 
