@@ -69,10 +69,10 @@ void *pombo() {
 
 //main
 int main() {
-//Declarando as variáveis globais
+ //Declarando as variáveis da main
    int i=0;
    int numPombo=1;
-   //Recebendo o número de usuários
+ //Recebendo o número de usuários
    printf("Digite o número de usuarios da thread:\n");
    scanf("%d",&numUsers);
    int nUsers[numUsers]; 
@@ -85,15 +85,15 @@ int main() {
    for(i=0;i<numUsers;i++)
       sem_init(&S[i],0,0);
       
- // Inicializando semáforo 2    
+ //Inicializando semáforo 2    
        sem_init(&mutex2,0,1);
    for(i=0;i<numUsers;i++)
       sem_init(&S2[i],0,0);
-     //Criando thread 1 
+	
+ //Criando thread 1 
    for(i=0;i<numUsers;i++)
    {
       pthread_create(&thread_id[i], NULL, usuario, &nUsers[i]);
-      //criar as threads
    }
   // Criando thread 2
    pthread_create(&thread_id2, NULL, pombo, &numPombo);
