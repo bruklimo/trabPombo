@@ -1,7 +1,9 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<semaphore.h>
-#include<pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <semaphore.h>
+#include <pthread.h>
+//#include <Windows.h> //Biblioteca para poder usar o Sleep no Windows
+#include <unistd.h> //Biblioteca para poder usar o Sleep no Linux
 #define N 20
 
 //Declarando as funções
@@ -9,34 +11,37 @@ void *usuario(void *num);
 void dorme_aleatorio();
 void leva_mochila_ate_B_e_volta();
 
+
 //Declarando as variáveis globais
 sem_t mutex;
 sem_t mutex2;
 int cont=0;
-int contPostIt=1; 
+int contPostIt=1;
 int numUsers=0;
 int i;
+int tempoEspera = 0;
 
 //Função dorme aleatório
 void dorme_aleatorio(){
-	 sem_wait(&mutex2);
-	 sleep(1);
-	
+         sem_wait(&mutex2);
+         tempoEspera =(rand() % 3)+1;
+         usleep(tempoEspera); //Pausa o programar por um tempo aleatório entre 1 e 3 seg
 }
 
 //Função leva mochila
 void leva_mochila_ate_B_e_volta(){
-	sem_wait(&mutex);
-	sleep(1);
+        sem_wait(&mutex);
+        tempoEspera =(rand() % 3)+1;
+        usleep(tempoEspera);
 }
 
 //Função colaPostIt
 void ColaPostIt(){
-	sleep(1);
+        tempoEspera =(rand() % 3)+1;
+        usleep(tempoEspera);
 }
 
 //Thread usuário
-
 void *usuario (void *num){
  while(1){
  dorme_aleatorio();
@@ -49,7 +54,7 @@ void *usuario (void *num){
  sem_post(&mutex);
  }
  }
-} 
+}
 
 
 //Thread pombo
@@ -63,9 +68,9 @@ void *pombo() {
   leva_mochila_ate_B_e_volta();
   sem_post(&mutex);
   contPostIt = 1;
- 
+
  }
-} 
+}
 
 //main
 int main() {
@@ -75,22 +80,22 @@ int main() {
  //Recebendo o número de usuários
    printf("Digite o número de usuarios da thread:\n");
    scanf("%d",&numUsers);
-   int nUsers[numUsers]; 
+   int nUsers[numUsers];
    sem_t S[numUsers]; //inicializacao do semáforo
    sem_t S2[numUsers]; //inicializacao do semáforo
    pthread_t thread_id[numUsers],thread_id2; //identificadores das threads
- 
+
  //Inicializando semáforo 1
    sem_init(&mutex,0,1);
    for(i=0;i<numUsers;i++)
       sem_init(&S[i],0,0);
-      
- //Inicializando semáforo 2    
+
+ //Inicializando semáforo 2
        sem_init(&mutex2,0,1);
    for(i=0;i<numUsers;i++)
       sem_init(&S2[i],0,0);
-	
- //Criando thread 1 
+
+ //Criando thread 1
    for(i=0;i<numUsers;i++)
    {
       pthread_create(&thread_id[i], NULL, usuario, &nUsers[i]);
