@@ -12,7 +12,7 @@ YoRHa
 Após acessar via SSH a instância, deve-se entrar no diretório onde está localizado a main.c
 
 ```
-cd /home/ec2-user/
+cd /home/ec2-user/trabProg
 
 ```
 
